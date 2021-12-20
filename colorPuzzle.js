@@ -4,6 +4,7 @@ const colorBtns = document.getElementsByClassName('colorBtn');
 const colNumbers = document.getElementsByClassName('topLabel');
 const rowNumbers = document.getElementsByClassName('sideLabel');
 
+const shadow = document.getElementsByClassName('shadow')[0];
 const successImage = document.getElementsByClassName('successImage')[0];
 
 const cellData = Array.from(new Array(25), () => {return {color: 'white'}});
@@ -23,6 +24,7 @@ const patterns = {
 }
 
 let currentPattern = patterns.snowMom;
+let finished = false;
 
 const colorToLetter = {
   red: 'r',
@@ -35,6 +37,9 @@ const colorToLetter = {
 };
 
 function colorCell(target) {
+  if (finished) {
+    return;
+  }
   const clickIdx = [...cells].findIndex(cell => cell === target);
   target.classList.add(color);
   colors.forEach(el => {
@@ -42,9 +47,13 @@ function colorCell(target) {
   });
   cellData[clickIdx].color = color;
   if (checkUserPattern(currentPattern)) {
-    document.getElementsByClassName('shadow')[0].classList.remove('none');
+    finished = true;
+    shadow.classList.remove('none');
     successImage.classList.remove('none');
+    document.getElementsByClassName('clearBtn')[0].disabled = true;
+    document.getElementsByClassName('colorGrid')[0].classList.add('finished');
     setTimeout(() => {
+      shadow.classList.add('none');
       successImage.classList.add('none');
     }, 2400);
   }

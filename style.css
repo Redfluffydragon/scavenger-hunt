@@ -21,12 +21,16 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   filter: brightness(0.9);
 }
 
 button:active {
   filter: brightness(0.75);
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 
 .gridAndLabels {
@@ -85,6 +89,10 @@ button:active {
 .colorCell {
   cursor: pointer;
   background: white;
+}
+
+.finished, .finished .colorCell {
+  cursor: not-allowed;
 }
 
 .colors {
