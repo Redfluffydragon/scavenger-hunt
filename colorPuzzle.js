@@ -19,7 +19,21 @@ let color = 'white';
  * g = green
  */
 const patterns = {
-  snowMom: 'ggbgg ggwgg grrrg grrrg gwwwg',
+  snowMom: {
+    pattern: 'ggbgg ggwgg grrrg grrrg gwwwg',
+  },
+  tree: {
+    pattern: 'wwyww wwgww wrggw gggrg wwnww',
+    display: {
+      r: 'top',
+      g: 'both',
+      n: 'side',
+      y: 'both',
+      a: 'both',
+      b: 'both',
+      w: 'both',
+    },
+  },
   test: 'gwwww wwwww wwwww wwwww wwwww',
 }
 
@@ -46,7 +60,7 @@ function colorCell(target) {
     el !== color && target.classList.remove(el);
   });
   cellData[clickIdx].color = color;
-  if (checkUserPattern(currentPattern)) {
+  if (checkUserPattern(currentPattern.pattern)) {
     finished = true;
     shadow.classList.remove('none');
     successImage.classList.remove('none');
@@ -83,34 +97,41 @@ function getColorNumbers(pattern) {
     r: {
       rows: [0, 0, 0, 0, 0],
       cols: [0, 0, 0, 0, 0],
+      display: '',
     },
     g: {
       rows: [0, 0, 0, 0, 0],
       cols: [0, 0, 0, 0, 0],
+      display: '',
     },
     n: {
       rows: [0, 0, 0, 0, 0],
       cols: [0, 0, 0, 0, 0],
+      display: '',
     },
     y: {
       rows: [0, 0, 0, 0, 0],
       cols: [0, 0, 0, 0, 0],
+      display: '',
     },
     a: {
       rows: [0, 0, 0, 0, 0],
       cols: [0, 0, 0, 0, 0],
+      display: '',
     },
     b: {
       rows: [0, 0, 0, 0, 0],
       cols: [0, 0, 0, 0, 0],
+      display: '',
     },
     w: {
       rows: [0, 0, 0, 0, 0],
       cols: [0, 0, 0, 0, 0],
+      display: '',
     },
   };
 
-  pattern.split(' ').forEach((row, idx) => {
+  pattern.pattern.split(' ').forEach((row, idx) => {
     for (const i in numbers) {
       const colorMatch = new RegExp(i, 'g');
       numbers[i].rows[idx] = (row.match(colorMatch) || []).length;
@@ -119,21 +140,52 @@ function getColorNumbers(pattern) {
       numbers[row.charAt(i)].cols[i]++;
     }
   });
+
+  if (pattern.display) {
+    for (const i in pattern.display) {
+      numbers[i].display = pattern.display[i];
+    }
+  }
   return numbers;
 }
 
+/**
+ * Display the number hints along the edge of the puzzle
+ * @param {Object} numbers An object with all the numbers for each color to display
+ * @param {string} color The current color to display
+ * @param {'side'|'top'|'both'|'random'} style Which numbers to display
+ */
 function showColorNumbers(numbers, color) {
   const cLetter = colorToLetter[color];
-  const decider = Math.round(mulberry32(numbers[cLetter].cols.reduce((sum, curr) => sum + curr)) * 10);
-  if (!(decider % 2)) {
+  let display = numbers[cLetter].display || 'random';
+  if (display === 'random') {
+    const decider = Math.round(mulberry32(numbers[cLetter].cols.reduce((sum, curr) => sum + curr)) * 10);
+    if (!(decider % 2)) { // Top
+      [...colNumbers].forEach((el, idx) => {
+        el.textContent = numbers[cLetter].cols[idx];
+      });
+      [...rowNumbers].forEach(el => {
+        el.textContent = '';
+      });
+    }
+    else { // Side
+      [...colNumbers].forEach(el => {
+        el.textContent = '';
+      });
+      [...rowNumbers].forEach((el, idx) => {
+        el.textContent = numbers[cLetter].rows[idx];
+      });
+    }
+  }
+  else if (display === 'both') {
     [...colNumbers].forEach((el, idx) => {
       el.textContent = numbers[cLetter].cols[idx];
     });
-    [...rowNumbers].forEach(el => {
-      el.textContent = '';
+    [...rowNumbers].forEach((el, idx) => {
+      el.textContent = numbers[cLetter].rows[idx];
     });
   }
-  else {
+  else if (display === 'side') {
     [...colNumbers].forEach(el => {
       el.textContent = '';
     });
@@ -141,9 +193,17 @@ function showColorNumbers(numbers, color) {
       el.textContent = numbers[cLetter].rows[idx];
     });
   }
+  else if (display === 'top') {
+    [...colNumbers].forEach((el, idx) => {
+      el.textContent = numbers[cLetter].cols[idx];
+    });
+    [...rowNumbers].forEach(el => {
+      el.textContent = '';
+    });
+  }
 }
 
-const colorNums = getColorNumbers(patterns.snowMom);
+const colorNums = getColorNumbers(currentPattern);
 
 addEventListener('load', () => {
   showColorNumbers(colorNums, color);
@@ -161,6 +221,9 @@ document.addEventListener('click', e => {
 }, false);
 
 document.getElementsByClassName('colorGrid')[0].addEventListener('mousedown', e => {
+  if (e.button !== 0) {
+    return;
+  }
   e.preventDefault();
   document.addEventListener('mousemove', colorDrag, false);
 }, false);
