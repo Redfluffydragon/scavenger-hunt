@@ -1,0 +1,165 @@
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  gap: 2ch;
+  place-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 1.2em;
+}
+
+button {
+  padding: 2ch;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(0.9);
+}
+
+button:active {
+  filter: brightness(0.75);
+}
+
+.gridAndLabels {
+  display: grid;
+  grid-template-columns: 5rem 25rem;
+  grid-template-rows: 5rem 25rem;
+  padding: 1ch;
+}
+
+.topLabels {
+  grid-column: 2 / auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  text-align: center;
+  font-size: 1.6em;
+  gap: 3px;
+}
+
+.topLabel {
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  place-content: center;
+  place-items: center;
+}
+
+.sideLabels {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  align-content: center;
+  text-align: center;
+  font-size: 1.6em;
+  gap: 3px;
+}
+
+.sideLabel {
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  place-content: center;
+  place-items: center;
+}
+
+.colorGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 3px;
+  width: 25rem;
+  aspect-ratio: 1;
+  border: 3px solid black;
+  background: black;
+}
+
+.colorCell {
+  cursor: pointer;
+  background: white;
+}
+
+.colors {
+  display: flex;
+}
+
+.colors label {
+  padding: 2ch;
+  cursor: pointer;
+}
+
+.colors input {
+  display: none;
+}
+
+.colors input:checked + label {
+  background: darkgray;
+}
+
+.shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  place-items: center;
+  place-content: center;
+}
+
+.successModal {
+  background: white;
+  padding: 2em;
+  position: relative;
+  z-index: 3;
+}
+
+.successImage {
+  position: absolute;
+  filter: drop-shadow(0 0 20px red);
+}
+
+.selected {
+  background: darkgray;
+}
+
+.none {
+  display: none;
+}
+
+.red {
+  background: red;
+}
+
+.green {
+  background: rgb(4, 143, 34);
+}
+
+.brown {
+  background: rgb(94, 61, 0);
+}
+
+.yellow {
+  background: yellow;
+}
+
+.gray {
+  background: rgb(124, 124, 124);
+}
+
+.black {
+  background: black;
+}
+
+.white {
+  background: white;
+}

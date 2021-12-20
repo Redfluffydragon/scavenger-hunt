@@ -6,9 +6,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crimmas</title>
   <link rel="stylesheet" href="style.css">
-  <script src="colorConnect.js" async defer></script>
+  <script src="colorPuzzle.js" async defer></script>
 </head>
 <body>
-  
+  <div class="gridAndLabels">
+    <div class="topLabels">
+      <div class="topLabel"></div>
+      <div class="topLabel"></div>
+      <div class="topLabel"></div>
+      <div class="topLabel"></div>
+      <div class="topLabel"></div>
+    </div>
+    <div class="sideLabels">
+      <div class="sideLabel"></div>
+      <div class="sideLabel"></div>
+      <div class="sideLabel"></div>
+      <div class="sideLabel"></div>
+      <div class="sideLabel"></div>
+    </div>
+    <div class="colorGrid">
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+      <div class="colorCell"></div>
+    </div>
+  </div>
+
+  <form id="colorForm" name="colorForm" class="colors">
+    <input type="radio" name="currentColor" id="red" class="colorRadio" value="red">
+    <label for="red">Red</label>
+      
+    <input type="radio" name="currentColor" id="green" class="colorRadio" value="green">
+    <label for="green">Green</label>
+      
+    <input type="radio" name="currentColor" id="brown" class="colorRadio" value="brown">
+    <label for="brown">Brown</label>
+      
+    <input type="radio" name="currentColor" id="yellow" class="colorRadio" value="yellow">
+    <label for="yellow">Yellow</label>
+      
+    <input type="radio" name="currentColor" id="gray" class="colorRadio" value="gray">
+    <label for="gray">Gray</label>
+      
+    <input type="radio" name="currentColor" id="black" class="colorRadio" value="black">
+    <label for="black">Black</label>
+      
+    <input checked type="radio" name="currentColor" id="white" class="colorRadio" value="white">
+    <label for="white">White</label>
+  </form>
+
+  <button class="clearBtn">Clear</button>
+
+  <div class="shadow none">
+    <img class="successImage none" src="fireworks.gif" alt="Fireworks exploding">
+    <!-- <div class="successModal">
+      Go there
+    </div> -->
+  </div>
 </body>
 </html>
