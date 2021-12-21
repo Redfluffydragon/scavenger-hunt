@@ -89,6 +89,21 @@ button:disabled {
 .colorCell {
   cursor: pointer;
   background: white;
+  position: relative;
+}
+
+.colorGrid:not(.finished) .locked {
+  filter: grayscale(30%);
+}
+
+.colorGrid:not(.finished) .locked::after {
+  content: 'X';
+  font-family: monospace;
+  font-size: 4em;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .finished, .finished .colorCell {

@@ -1,3 +1,4 @@
+const colorGrid = document.getElementsByClassName('colorGrid')[0];
 const cells = document.getElementsByClassName('colorCell');
 const colorBtns = document.getElementsByClassName('colorBtn');
 
@@ -7,9 +8,11 @@ const rowNumbers = document.getElementsByClassName('sideLabel');
 const shadow = document.getElementsByClassName('shadow')[0];
 const successImage = document.getElementsByClassName('successImage')[0];
 
-const cellData = Array.from(new Array(25), () => {return {color: 'white'}});
+const cellData = Array.from(new Array(25), () => {return { color: 'white', locked: false }});
 const colors = ['red', 'green', 'brown', 'yellow', 'gray', 'black', 'white'];
 let color = 'white';
+let locking = true;
+let dragged = false;
 
 /**
  * n = brown
@@ -50,11 +53,17 @@ const colorToLetter = {
   white: 'w',
 };
 
+/**
+ * Change the color of the target cell to the current color
+ * @param {HTMLElement} target The target to change the color of
+ * @returns {void}
+ */
 function colorCell(target) {
-  if (finished) {
+  const clickIdx = [...cells].findIndex(cell => cell === target);
+
+  if (finished || cellData[clickIdx].locked) {
     return;
   }
-  const clickIdx = [...cells].findIndex(cell => cell === target);
   target.classList.add(color);
   colors.forEach(el => {
     el !== color && target.classList.remove(el);
@@ -73,6 +82,10 @@ function colorCell(target) {
   }
 }
 
+/**
+ * Change the color of cells by draggin over them with left click
+ * @param {Event} e A mousemoved event to get the element the cursor is over
+ */
 function colorDrag(e) {
   const over = document.elementFromPoint(e.clientX, e.clientY);
   if (over.matches('.colorCell')) {
@@ -80,6 +93,38 @@ function colorDrag(e) {
   }
 }
 
+/**
+ * Lock or unlock the target cell
+ * @param {HTMLElement} target The cell to lock or unlock
+ * @param {boolean} lock Whether to lock or unlock the target
+ * @returns {void}
+ */
+function lockCell(target, lock) {
+  if (finished) {
+    return;
+  }
+  const clickIdx = [...cells].findIndex(cell => cell === target);
+  target.classList[lock ? 'add' : 'remove']('locked');
+  cellData[clickIdx].locked = lock;
+}
+
+/**
+ * Lock cells by dragging over them with right click
+ * @param {Event} e A mousemoved event to get the element the cursor is over
+ */
+function lockDrag(e) {
+  dragged = true;
+  const over = document.elementFromPoint(e.clientX, e.clientY);
+  if (over.matches('.colorCell')) {
+    lockCell(over, locking);
+  }
+}
+
+/**
+ * The mulberry32 PRNG, for deterministically but randomly displaying either the side or top hints. Returns a random number between 0 and 1.
+ * @param {number} a The seed
+ * @returns {number}
+ */
 function mulberry32(a) {
   a |= 0; a = a + 0x6D2B79F5 | 0;
   var t = Math.imul(a ^ a >>> 15, 1 | a);
@@ -87,11 +132,21 @@ function mulberry32(a) {
   return ((t ^ t >>> 14) >>> 0) / 4294967296;
 }
 
+/**
+ * Check if the user input is equal to the given pattern
+ * @param {string} pattern The pattern to check against
+ * @returns {Boolean}
+ */
 function checkUserPattern(pattern) {
   const checkPattern = pattern.replace(/ /g, '');
   return cellData.every((cell, idx) => colorToLetter[cell.color] === checkPattern.charAt(idx));
 }
 
+/**
+ * Generate an object with all the color hints for a pattern
+ * @param {Object} pattern The pattern to create hints for
+ * @returns {Object}
+ */
 function getColorNumbers(pattern) {
   const numbers = {
     r: {
@@ -153,11 +208,13 @@ function getColorNumbers(pattern) {
  * Display the number hints along the edge of the puzzle
  * @param {Object} numbers An object with all the numbers for each color to display
  * @param {string} color The current color to display
- * @param {'side'|'top'|'both'|'random'} style Which numbers to display
  */
 function showColorNumbers(numbers, color) {
   const cLetter = colorToLetter[color];
+
+  /** @type {'side'|'top'|'both'|'random'} style Which numbers to display */
   let display = numbers[cLetter].display || 'random';
+
   if (display === 'random') {
     const decider = Math.round(mulberry32(numbers[cLetter].cols.reduce((sum, curr) => sum + curr)) * 10);
     if (!(decider % 2)) { // Top
@@ -209,27 +266,49 @@ addEventListener('load', () => {
   showColorNumbers(colorNums, color);
 }, false);
 
+colorGrid.addEventListener('mousedown', e => {
+  e.preventDefault();
+  if (e.button === 0) {
+    document.addEventListener('mousemove', colorDrag, false);
+  }
+  else if (e.button === 2) { // Lock cells with right click
+    locking = !e.target.matches('.locked');
+    document.addEventListener('mousemove', lockDrag, false);
+  }
+}, false);
+
+document.addEventListener('mouseup', () => {
+  document.removeEventListener('mousemove', colorDrag, false);
+  document.removeEventListener('mousemove', lockDrag, false);
+}, false);
+
+colorGrid.addEventListener('contextmenu', e => {
+  e.preventDefault();
+  if (dragged) {
+    dragged = false;
+    return;
+  }
+  if (e.target.matches('.colorCell')) {
+    locking = !e.target.matches('.locked');
+    lockCell(e.target, locking);
+  }
+}, false);
+
 document.addEventListener('click', e => {
   if (e.target.matches('.colorCell')) {
-    colorCell(e.target);
+    if (e.button === 0) {
+      colorCell(e.target);
+    }
   }
   else if (e.target.matches('.clearBtn')) {
     [...cells].forEach(cell => {
       cell.classList.value = 'colorCell';
     });
+    cellData.forEach(cell => {
+      cell.color = 'white';
+      cell.locked = false;
+    });
   }
-}, false);
-
-document.getElementsByClassName('colorGrid')[0].addEventListener('mousedown', e => {
-  if (e.button !== 0) {
-    return;
-  }
-  e.preventDefault();
-  document.addEventListener('mousemove', colorDrag, false);
-}, false);
-
-document.addEventListener('mouseup', () => {
-  document.removeEventListener('mousemove', colorDrag, false);
 }, false);
 
 document.getElementById('colorForm').addEventListener('input', () => {
