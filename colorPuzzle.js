@@ -1,12 +1,12 @@
-const colorGrid = document.getElementsByClassName('colorGrid')[0];
+const colorGrid = document.querySelector('.colorGrid');
 const cells = document.getElementsByClassName('colorCell');
 const colorBtns = document.getElementsByClassName('colorBtn');
 
 const colNumbers = document.getElementsByClassName('topLabel');
 const rowNumbers = document.getElementsByClassName('sideLabel');
 
-const shadow = document.getElementsByClassName('shadow')[0];
-const successImage = document.getElementsByClassName('successImage')[0];
+const shadow = document.querySelector('.shadow');
+const successImage = document.querySelector('.successImage');
 
 const cellData = Array.from(new Array(25), () => {return { color: 'white', locked: false }});
 const colors = ['red', 'green', 'brown', 'yellow', 'gray', 'black', 'white'];
@@ -73,8 +73,8 @@ function colorCell(target) {
     finished = true;
     shadow.classList.remove('none');
     successImage.classList.remove('none');
-    document.getElementsByClassName('clearBtn')[0].disabled = true;
-    document.getElementsByClassName('colorGrid')[0].classList.add('finished');
+    document.querySelector('.clearBtn').disabled = true;
+    document.querySelector('.colorGrid').classList.add('finished');
     setTimeout(() => {
       shadow.classList.add('none');
       successImage.classList.add('none');
