@@ -8,87 +8,102 @@
   <link rel="shortcut icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css">
   <script src="colorPuzzle.js" async defer></script>
+  <script src="theseus.js" async defer></script>
 </head>
 <body>
-  <div class="gridAndLabels">
-    <div class="topLabels">
-      <div class="topLabel"></div>
-      <div class="topLabel"></div>
-      <div class="topLabel"></div>
-      <div class="topLabel"></div>
-      <div class="topLabel"></div>
+  <div class="nonogram none">
+    <div class="gridAndLabels">
+      <div class="topLabels">
+        <div class="topLabel"></div>
+        <div class="topLabel"></div>
+        <div class="topLabel"></div>
+        <div class="topLabel"></div>
+        <div class="topLabel"></div>
+      </div>
+      <div class="sideLabels">
+        <div class="sideLabel"></div>
+        <div class="sideLabel"></div>
+        <div class="sideLabel"></div>
+        <div class="sideLabel"></div>
+        <div class="sideLabel"></div>
+      </div>
+      <div class="colorGrid">
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+        <div class="colorCell"></div>
+      </div>
     </div>
-    <div class="sideLabels">
-      <div class="sideLabel"></div>
-      <div class="sideLabel"></div>
-      <div class="sideLabel"></div>
-      <div class="sideLabel"></div>
-      <div class="sideLabel"></div>
-    </div>
-    <div class="colorGrid">
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-      <div class="colorCell"></div>
-    </div>
+    <form id="colorForm" name="colorForm" class="colors">
+      <input type="radio" name="currentColor" id="red" class="colorRadio" value="red">
+      <label for="red">Red</label>
+    
+      <input type="radio" name="currentColor" id="green" class="colorRadio" value="green">
+      <label for="green">Green</label>
+    
+      <input type="radio" name="currentColor" id="brown" class="colorRadio" value="brown">
+      <label for="brown">Brown</label>
+    
+      <input type="radio" name="currentColor" id="yellow" class="colorRadio" value="yellow">
+      <label for="yellow">Yellow</label>
+    
+      <!-- <input type="radio" name="currentColor" id="gray" class="colorRadio" value="gray">
+      <label for="gray">Gray</label> -->
+    
+      <input type="radio" name="currentColor" id="black" class="colorRadio" value="black">
+      <label for="black">Black</label>
+    
+      <input checked type="radio" name="currentColor" id="white" class="colorRadio" value="white">
+      <label for="white">White</label>
+    </form>
+    <button class="clearBtn">Clear</button>
+    <p>Right click to lock/unlock</p>
   </div>
-
-  <form id="colorForm" name="colorForm" class="colors">
-    <input type="radio" name="currentColor" id="red" class="colorRadio" value="red">
-    <label for="red">Red</label>
-      
-    <input type="radio" name="currentColor" id="green" class="colorRadio" value="green">
-    <label for="green">Green</label>
-      
-    <input type="radio" name="currentColor" id="brown" class="colorRadio" value="brown">
-    <label for="brown">Brown</label>
-      
-    <input type="radio" name="currentColor" id="yellow" class="colorRadio" value="yellow">
-    <label for="yellow">Yellow</label>
-      
-    <!-- <input type="radio" name="currentColor" id="gray" class="colorRadio" value="gray">
-    <label for="gray">Gray</label> -->
-      
-    <input type="radio" name="currentColor" id="black" class="colorRadio" value="black">
-    <label for="black">Black</label>
-      
-    <input checked type="radio" name="currentColor" id="white" class="colorRadio" value="white">
-    <label for="white">White</label>
-  </form>
-
-  <button class="clearBtn">Clear</button>
-  <p>Right click to lock/unlock</p>
-
+  <div class="theseusAndAsterion">
+    <div class="controls">
+      <button class="skipTurnBtn">Skip turn</button>
+      <p>(Or use enter to skip your turn)</p>
+      <button class="restartBtn">Restart</button>
+      <p>Use the arrow keys or WASD to uncover secret of the labrinth. Don't let Theseus kill you!</p>
+    </div>
+    <div class="maze">
+      <div class="riddle"></div>
+      <div id="theseus" class="theseus entity" title="Theseus">
+        <img src="Theseus.png" alt="A sword outline" width="64" height="64">
+      </div>
+      <div id="asterion" class="asterion entity" title="Asterion">
+        <img src="Asterion.png" alt="A minotaur head icon" width="64" height="64">
+      </div>
+    </div>
+    
+  </div>
   <div class="shadow none">
     <img class="successImage none" src="fireworks.gif" alt="Fireworks exploding">
-    <!-- <div class="successModal">
-      Go there
-    </div> -->
+    <div class="deathModal modal none">
+      <h2>You lose!</h2>
+      <button class="restartBtn">Restart</button>
+    </div>
   </div>
 </body>
 </html>

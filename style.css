@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
   height: 100%;
 }
@@ -12,6 +16,10 @@ body {
   margin: 0;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-size: 1.2em;
+}
+
+img, svg {
+  display: block;
 }
 
 button {
@@ -31,6 +39,14 @@ button:active {
 
 button:disabled {
   cursor: not-allowed;
+}
+
+.nonogram {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  place-items: center;
+  gap: 1ch;
 }
 
 .gridAndLabels {
@@ -133,17 +149,18 @@ button:disabled {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   place-items: center;
   place-content: center;
 }
 
-.successModal {
+.modal {
   background: white;
   padding: 2em;
   position: relative;
-  z-index: 3;
+  z-index: 4;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
 }
 
 .successImage {
@@ -153,10 +170,6 @@ button:disabled {
 
 .selected {
   background: darkgray;
-}
-
-.none {
-  display: none;
 }
 
 .red {
@@ -183,6 +196,169 @@ button:disabled {
   background: black;
 }
 
+.blue {
+  background: rgb(0, 71, 138);
+}
+
 .white {
   background: white;
+}
+
+.theseusAndAsterion {
+  position: relative;
+  display: flex;
+  gap: 2ch;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 2ch;
+  max-width: 20ch;
+}
+
+.maze {
+  position: relative;
+  border: 3px solid black;
+  min-height: 90vh;
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+
+  --border-width: 2px;
+}
+
+.maze.won {
+  border: none;
+}
+
+@font-face {
+  font-family: 'Rage Italic';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Rage Italic'), url('RAGE_1.woff') format('woff');
+}
+
+.riddle {
+  position: absolute;
+  display: flex;
+  font-size: 3em;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  place-content: center;
+  place-items: center;
+  font-family: 'Rage Italic';
+  background: gray;
+  color: white;
+}
+
+.maze.won .riddle {
+  animation: doneRiddle 1s forwards linear;
+}
+
+@keyframes doneRiddle {
+  10% {
+    color: black;
+  }
+  20% {
+    color: white;
+  }
+  30% {
+    color: black;
+  }
+  40% {
+    color: white;
+  }
+  50% {
+    color: black;
+    background: white;
+  }
+  60% {
+    color: white;
+  }
+  70% {
+    color: black;
+  }
+  85% {
+    color: white;
+  }
+  90% {
+    color: black;
+  }
+  100% {
+    background: black;
+    color: red;
+  }
+}
+
+.maze.won .mazeCell {
+  border: none;
+}
+
+.maze.won .entity {
+  display: none;
+}
+
+.mazeCell {
+  border: 1px dashed gray;
+  position: relative;
+  z-index: 1;
+  --border-color: black;
+}
+
+.mazeCell:not(.revealed) {
+  background: white;
+}
+
+.topBorder {
+  border-top: var(--border-width) solid var(--border-color);
+}
+
+.rightBorder {
+  border-right: var(--border-width) solid var(--border-color);
+}
+
+.bottomBorder {
+  border-bottom: var(--border-width) solid var(--border-color);
+}
+
+.leftBorder {
+  border-left: var(--border-width) solid var(--border-color);
+}
+
+.entity {
+  width: 7vh;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: absolute;
+  transform-origin: center;
+  display: flex;
+  place-content: center;
+  place-items: center;
+  top: 1vh;
+  left: 1vh;
+  z-index: 3;
+  will-change: transform;
+  transition: transform 0.2s;
+}
+
+.entity img {
+  max-width: 80%;
+  max-height: 80%;
+  aspect-ratio: 1;
+}
+
+.theseus {
+  background: rgb(187, 14, 14);
+  transform: translate(calc(9 * (9vh - 0.5px)), calc(9 * (9vh - 0.5px)));
+}
+
+.asterion {
+  background: rgb(91, 148, 255);
+}
+
+.none {
+  display: none;
 }
