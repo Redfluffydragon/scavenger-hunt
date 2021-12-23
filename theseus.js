@@ -43,6 +43,7 @@ function restart() {
 function lose() {
   shadow.classList.remove('none');
   document.querySelector('.deathModal').classList.remove('none');
+  document.querySelector('.focus.restartBtn').focus();
 }
 
 function win() {
