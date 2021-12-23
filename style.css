@@ -22,6 +22,10 @@ img, svg {
   display: block;
 }
 
+input {
+  font: inherit
+}
+
 button {
   padding: 2ch;
   border: none;
@@ -161,6 +165,7 @@ button:disabled {
   position: relative;
   z-index: 4;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
+  text-align: center;
 }
 
 .successImage {
@@ -357,6 +362,10 @@ button:disabled {
 
 .asterion {
   background: rgb(91, 148, 255);
+}
+
+.wrongPassword {
+  color: red;
 }
 
 .none {

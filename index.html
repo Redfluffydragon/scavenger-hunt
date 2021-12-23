@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="style.css">
   <script src="colorPuzzle.js" async defer></script>
   <script src="theseus.js" async defer></script>
+  <script src="login.js" async defer></script>
 </head>
 <body>
   <div class="nonogram none">
@@ -80,12 +81,12 @@
     <button class="clearBtn">Clear</button>
     <p>Right click to lock/unlock</p>
   </div>
-  <div class="theseusAndAsterion">
+  <div class="theseusAndAsterion none">
     <div class="controls">
       <button class="skipTurnBtn">Skip turn</button>
       <p>(Or use enter to skip your turn)</p>
       <button class="restartBtn">Restart</button>
-      <p>Use the arrow keys or WASD to uncover secret of the labrinth. Don't let Theseus kill you!</p>
+      <!-- <p>Use the arrow keys or WASD to uncover secret of the labrinth. Don't let Theseus kill you!</p> -->
     </div>
     <div class="maze">
       <div class="riddle"></div>
@@ -102,7 +103,18 @@
     <img class="successImage none" src="fireworks.gif" alt="Fireworks exploding">
     <div class="deathModal modal none">
       <h2>You lose!</h2>
-      <button class="restartBtn">Restart</button>
+      <button class="focus restartBtn">Restart</button>
+    </div>
+  </div>
+  <div class="login">
+    <div class="modal">
+      <label for="password">Enter the password: &nbsp; &nbsp; </label>
+      <input type="text" name="" id="password">
+      <br>
+      <span class="wrongPassword none">Incorrect</span>
+      <br>
+      <br>
+      <button class="passwordBtn">Submit</button>
     </div>
   </div>
 </body>
