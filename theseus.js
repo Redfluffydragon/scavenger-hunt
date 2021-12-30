@@ -201,12 +201,9 @@ window.addEventListener('load', () => {
     document.querySelector('.riddle').innerHTML = `
     The ground of chilren's recreation
     <br>
-    <br>
     We have but only one
     <br>
-    <br>
     In times of old more dangerous
-    <br>
     <br>
     But oftentimes more fun.`
   }, 10);

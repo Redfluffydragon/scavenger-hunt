@@ -248,7 +248,8 @@ button:disabled {
 .riddle {
   position: absolute;
   display: flex;
-  font-size: 3em;
+  font-size: 3rem;
+  line-height: 2;
   width: 100%;
   height: 100%;
   text-align: center;
